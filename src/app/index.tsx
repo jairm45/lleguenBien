@@ -1,98 +1,83 @@
-import * as Device from "expo-device";
-import { Platform, StyleSheet } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
+import { Ionicons } from "@expo/vector-icons";
+import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
+import { useRouter } from "expo-router";
+import {
+  SafeAreaView,
+  StatusBar,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
+import { styles } from "../app/styles/WelcomeStyles";
 
-import { AnimatedIcon } from "@/components/animated-icon";
-import { HintRow } from "@/components/hint-row";
-import { ThemedText } from "@/components/themed-text";
-import { ThemedView } from "@/components/themed-view";
-import { WebBadge } from "@/components/web-badge";
-import { BottomTabInset, MaxContentWidth, Spacing } from "@/constants/theme";
+export default function WelcomeScreen() {
+  const router = useRouter();
 
-function getDevMenuHint() {
-  if (Platform.OS === "web") {
-    return <ThemedText type="small">use browser devtools</ThemedText>;
-  }
-  if (Device.isDevice) {
-    return (
-      <ThemedText type="small">
-        shake device or press <ThemedText type="code">m</ThemedText> in terminal
-      </ThemedText>
-    );
-  }
-  const shortcut = Platform.OS === "android" ? "cmd+m (or ctrl+m)" : "cmd+d";
   return (
-    <ThemedText type="small">
-      press <ThemedText type="code">{shortcut}</ThemedText>
-    </ThemedText>
+    <SafeAreaView style={styles.container}>
+      <StatusBar barStyle="light-content" backgroundColor="#1A1E3C" />
+
+      {/* Elementos decorativos de fondo */}
+      <View style={styles.decorativeCircleTop} />
+      <View style={styles.decorativeCircleSmall} />
+
+      <View style={styles.content}>
+        {/* Logo de la app */}
+        <View style={styles.logoContainer}>
+          <Ionicons name="location-outline" size={40} color="#1A1E3C" />
+        </View>
+
+        {/* Títulos */}
+        <Text style={styles.title}>LleguéBien</Text>
+        <Text style={styles.subtitle}>
+          Tu regreso a casa, siempre acompañado.
+        </Text>
+
+        <Text style={styles.questionText}>¿Cómo vas a usar la app?</Text>
+
+        {/* Tarjeta: Estudiante */}
+        <TouchableOpacity
+          style={styles.card}
+          onPress={() => router.push("/estudiante/Inicio")}
+        >
+          <View style={[styles.iconCircle, { backgroundColor: "#F5A623" }]}>
+            <MaterialCommunityIcons
+              name="school-outline"
+              size={28}
+              color="#1A1E3C"
+            />
+          </View>
+          <View style={styles.cardTextContainer}>
+            <Text style={styles.cardTitle}>Soy estudiante</Text>
+            <Text style={styles.cardSubtitle}>
+              Quiero que me acompañen al volver a casa.
+            </Text>
+          </View>
+          <Ionicons name="chevron-forward" size={24} color="#1A1E3C" />
+        </TouchableOpacity>
+
+        {/* Tarjeta: Familiar */}
+        <TouchableOpacity
+          style={styles.card}
+          onPress={() => router.push("/familiar/Inicio")}
+        >
+          <View style={[styles.iconCircle, { backgroundColor: "#00BFA5" }]}>
+            <Ionicons name="people-outline" size={28} color="#FFFFFF" />
+          </View>
+          <View style={styles.cardTextContainer}>
+            <Text style={styles.cardTitle}>Soy familiar o seguidor</Text>
+            <Text style={styles.cardSubtitle}>
+              Quiero acompañar el recorrido de un estudiante.
+            </Text>
+          </View>
+          <Ionicons name="chevron-forward" size={24} color="#1A1E3C" />
+        </TouchableOpacity>
+      </View>
+
+      {/* Footer */}
+      <Text style={styles.footerText}>
+        Al continuar aceptas los términos y la política de privacidad.
+      </Text>
+    </SafeAreaView>
   );
 }
-
-export default function HomeScreen() {
-  return (
-    <ThemedView style={styles.container}>
-      <SafeAreaView style={styles.safeArea}>
-        <ThemedView style={styles.heroSection}>
-          <AnimatedIcon />
-          <ThemedText type="title" style={styles.title}>
-            Welcome to&nbsp;Expo
-          </ThemedText>
-        </ThemedView>
-
-        <ThemedText type="code" style={styles.code}>
-          get started
-        </ThemedText>
-
-        <ThemedView type="backgroundElement" style={styles.stepContainer}>
-          <HintRow
-            title="Try editing"
-            hint={<ThemedText type="code">src/app/index.tsx</ThemedText>}
-          />
-          <HintRow title="Dev tools" hint={getDevMenuHint()} />
-          <HintRow
-            title="Fresh start"
-            hint={<ThemedText type="code">npm run reset-project</ThemedText>}
-          />
-        </ThemedView>
-
-        {Platform.OS === "web" && <WebBadge />}
-      </SafeAreaView>
-    </ThemedView>
-  );
-}
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: "center",
-    flexDirection: "row",
-  },
-  safeArea: {
-    flex: 1,
-    paddingHorizontal: Spacing.four,
-    alignItems: "center",
-    gap: Spacing.three,
-    paddingBottom: BottomTabInset + Spacing.three,
-    maxWidth: MaxContentWidth,
-  },
-  heroSection: {
-    alignItems: "center",
-    justifyContent: "center",
-    flex: 1,
-    paddingHorizontal: Spacing.four,
-    gap: Spacing.four,
-  },
-  title: {
-    textAlign: "center",
-  },
-  code: {
-    textTransform: "uppercase",
-  },
-  stepContainer: {
-    gap: Spacing.three,
-    alignSelf: "stretch",
-    paddingHorizontal: Spacing.three,
-    paddingVertical: Spacing.four,
-    borderRadius: Spacing.four,
-  },
-});
