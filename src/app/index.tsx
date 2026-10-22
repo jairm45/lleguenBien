@@ -35,10 +35,10 @@ export default function WelcomeScreen() {
 
         <Text style={styles.questionText}>¿Cómo vas a usar la app?</Text>
 
-        {/* Tarjeta: Estudiante */}
+        {/* Tarjeta: Estudiante -> Redirige al Login de la carpeta rol */}
         <TouchableOpacity
           style={styles.card}
-          onPress={() => router.push("/estudiante/Inicio")}
+          onPress={() => router.push("/rol/estudiante")}
         >
           <View style={[styles.iconCircle, { backgroundColor: "#F5A623" }]}>
             <MaterialCommunityIcons
@@ -56,10 +56,10 @@ export default function WelcomeScreen() {
           <Ionicons name="chevron-forward" size={24} color="#1A1E3C" />
         </TouchableOpacity>
 
-        {/* Tarjeta: Familiar */}
+        {/* Tarjeta: Familiar -> Redirige al Login de la carpeta rol */}
         <TouchableOpacity
           style={styles.card}
-          onPress={() => router.push("/familiar/Inicio")}
+          onPress={() => router.push("/rol/familiar")}
         >
           <View style={[styles.iconCircle, { backgroundColor: "#00BFA5" }]}>
             <Ionicons name="people-outline" size={28} color="#FFFFFF" />

@@ -1,17 +1,6 @@
 import { Stack } from "expo-router";
-import * as SplashScreen from "expo-splash-screen";
-import { useEffect } from "react";
-
-SplashScreen.preventAutoHideAsync();
+import "react-native-get-random-values";
 
 export default function RootLayout() {
-  useEffect(() => {
-    SplashScreen.hideAsync();
-  }, []);
-
-  return (
-    <Stack screenOptions={{ headerShown: false }}>
-      <Stack.Screen name="index" />
-    </Stack>
-  );
+  return <Stack screenOptions={{ headerShown: false }} />;
 }

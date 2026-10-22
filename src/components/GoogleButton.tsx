@@ -21,6 +21,7 @@ export function GoogleButton({ rol }: GoogleButtonProps) {
       const idToken = userInfo.data?.idToken || (userInfo as any).idToken;
 
       if (idToken) {
+        // 1. Iniciar sesión en Supabase
         const { data, error } = await supabase.auth.signInWithIdToken({
           provider: "google",
           token: idToken,
@@ -30,7 +31,24 @@ export function GoogleButton({ rol }: GoogleButtonProps) {
 
         console.log("¡Logueado!", data.user);
 
-        // Redirige según el rol (en minúsculas)
+        // 2. GUARDAR EL ROL EN LA BASE DE DATOS
+        // Esto guarda si el usuario es estudiante o familiar
+        if (data.user) {
+          const { error: profileError } = await supabase
+            .from("perfiles") // Nombre de la tabla en Supabase
+            .upsert({
+              id: data.user.id,
+              email: data.user.email,
+              rol: rol || "estudiante", // Por defecto estudiante
+            });
+
+          if (profileError) {
+            console.error("Error guardando perfil:", profileError);
+            // No lanzamos error para no bloquear el login si falla esto
+          }
+        }
+
+        // 3. Redirigir según el rol
         if (rol === "seguidor") {
           router.replace("/familiar/inicio");
         } else {
